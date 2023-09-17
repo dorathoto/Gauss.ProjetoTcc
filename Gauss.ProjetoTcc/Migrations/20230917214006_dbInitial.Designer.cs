@@ -4,16 +4,18 @@ using Gauss.ProjetoTcc.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Gauss.ProjetoTcc.Data.Migrations
+namespace Gauss.ProjetoTcc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917214006_dbInitial")]
+    partial class dbInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,10 +35,22 @@ namespace Gauss.ProjetoTcc.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataExcluido")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataUltimaModificacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("Excluido")
+                        .HasColumnType("bit");
 
                     b.HasKey("CategoriaId");
 
@@ -82,14 +96,23 @@ namespace Gauss.ProjetoTcc.Data.Migrations
 
                     b.Property<string>("Conteudo")
                         .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
-                    b.Property<DateTime>("DataPublicacao")
+                    b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("NoticiaPrincipal")
+                    b.Property<DateTime?>("DataExcluido")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataUltimaModificacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Excluido")
                         .HasColumnType("bit");
+
+                    b.Property<int>("TipoNoticia")
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -134,7 +157,7 @@ namespace Gauss.ProjetoTcc.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("NomeCompleto")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -157,10 +180,6 @@ namespace Gauss.ProjetoTcc.Data.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sobrenome")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

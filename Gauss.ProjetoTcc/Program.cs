@@ -1,6 +1,6 @@
 using Gauss.ProjetoTcc.Data;
 using Gauss.ProjetoTcc.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +13,25 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddRazorPages();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddSingleton<RT.Comb.ICombProvider>(RT.Comb.Provider.Sql);
+
+
 builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+//login config opcional
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        options.SlidingExpiration = true;
+        options.AccessDeniedPath = "/Forbidden/";
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.Cookie.Name = "Guass.Cookie";
+        options.Cookie.HttpOnly = true;
+    });
 
 var app = builder.Build();
 
