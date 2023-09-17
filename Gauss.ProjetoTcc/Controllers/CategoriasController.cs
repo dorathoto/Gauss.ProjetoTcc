@@ -42,16 +42,13 @@ public class CategoriasController : ControllerBase
         return View();
     }
 
-    // POST: Categorias/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("CategoriaId,CategoriaNome,Descricao,DataCadastro")] Categoria categoria)
     {
         if (ModelState.IsValid)
         {
-            categoria.CategoriaId = Guid.NewGuid();
+            categoria.CategoriaId = _comb.Create();
             _context.Add(categoria);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

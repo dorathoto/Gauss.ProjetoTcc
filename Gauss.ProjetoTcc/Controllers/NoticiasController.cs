@@ -9,7 +9,6 @@ namespace Gauss.ProjetoTcc.Controllers
 {
     public class NoticiasController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
         public NoticiasController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb) : base(context, comb)
@@ -51,23 +50,25 @@ namespace Gauss.ProjetoTcc.Controllers
             return View();
         }
 
-        // POST: Noticias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Noticia noticia)
+        public async Task<IActionResult> Create(Noticia noticia)
         {
             var id = UserGuid;
             var id2 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (ModelState.IsValid)
             {
-                noticia.NoticiaId = Guid.NewGuid();
-                _context.Add(noticia);
+                noticia.NoticiaId = _comb.Create();
+                noticia.UsuarioId = id;
+                noticia.TipoNoticia = Models.Enums.TipoNoticia.NoticiaPrincipal;
+                _context.Noticias.Add(noticia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
             ViewData["CategoriaId"] = new SelectList(_context.Categoria, "CategoriaId", "CategoriaNome", noticia.CategoriaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", noticia.UsuarioId);
             return View(noticia);

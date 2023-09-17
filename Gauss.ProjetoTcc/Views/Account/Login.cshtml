@@ -10,12 +10,12 @@
         <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
             <div class="form-group">
                 <label class="form-label" for="username">Usuário</label>
-                <input asp-for="UserName" class="form-control form-control-lg" placeholder="email@@email.com" required />
+                <input asp-for="UserName" class="form-control form-control-lg" placeholder="email@@email.com" required value="gauss@gauss.com.br" />
                 <div class="invalid-feedback">Não pode ser vazio.</div>
             </div>
             <div class="form-group">
                 <label class="form-label" for="password">Senha</label>
-                <input asp-for="Password" class="form-control form-control-lg" placeholder="password" required value="123456">
+                <input asp-for="Password" class="form-control form-control-lg" placeholder="password" required value="Gauss@2023">
                 <div class="invalid-feedback">Não pode ser vazio.</div>
             </div>
             <div class="row no-gutters">
