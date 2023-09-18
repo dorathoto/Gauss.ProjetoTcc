@@ -55,13 +55,12 @@ namespace Gauss.ProjetoTcc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Noticia noticia)
         {
-            var id = UserGuid;
-            var id2 = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             if (ModelState.IsValid)
             {
                 noticia.NoticiaId = _comb.Create();
-                noticia.UsuarioId = id;
+                noticia.UsuarioId = userId;
                 noticia.TipoNoticia = Models.Enums.TipoNoticia.NoticiaPrincipal;
                 _context.Noticias.Add(noticia);
                 await _context.SaveChangesAsync();
